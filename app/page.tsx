@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Search, MessageCircle, Bell, Heart, MessageSquare, Repeat2, MoreHorizontal } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export default function SubstackHomepage() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true)
@@ -10,6 +11,7 @@ export default function SubstackHomepage() {
   const [showSelectionMenu, setShowSelectionMenu] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 })
   const [selectedText, setSelectedText] = useState("")
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,6 +88,10 @@ export default function SubstackHomepage() {
     }
   }, [])
 
+  const handleContextualize = () => {
+    router.push(`/contextualize?q=${encodeURIComponent(selectedText)}`)
+  }
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -98,10 +104,9 @@ export default function SubstackHomepage() {
           <div className="w-full flex items-center">
             {/* Left - Profile Avatar */}
             <div className="flex items-center">
-              <Avatar className="w-7 h-7 rounded-none">
-                <AvatarImage src="/images/flag-avatar.png" alt="Profile" className="object-cover" />
-                <AvatarFallback>SM</AvatarFallback>
-              </Avatar>
+              <div className="w-7 h-7">
+                <img src="/images/flag-icon.svg" alt="Substack Icon" className="w-full h-full object-contain" />
+              </div>
             </div>
 
             {/* Center - Publication Name (absolutely centered) */}
@@ -166,7 +171,10 @@ export default function SubstackHomepage() {
             </svg>
             Restack
           </button>
-          <button className="flex items-center gap-3 px-4 py-2 hover:bg-gray-600 rounded-lg text-sm whitespace-nowrap w-full">
+          <button
+            onClick={handleContextualize}
+            className="flex items-center gap-3 px-4 py-2 hover:bg-gray-600 rounded-lg text-sm whitespace-nowrap w-full"
+          >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
