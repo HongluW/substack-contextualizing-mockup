@@ -2,10 +2,10 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Search, MessageCircle, Bell, Heart, MessageSquare, Repeat2, MoreHorizontal } from "lucide-react"
+import { Search, MessageCircle, Bell, Heart, MessageSquare, Repeat2, MoreHorizontal, ChevronLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
 
-export default function SubstackHomepage() {
+export default function UnderstandingMediaPage() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
   const [showSelectionMenu, setShowSelectionMenu] = useState(false)
@@ -16,24 +16,17 @@ export default function SubstackHomepage() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
-
-      // Hide selection menu on scroll
       if (showSelectionMenu) {
         setShowSelectionMenu(false)
         setSelectedText("")
       }
-
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling down and past 100px
         setIsHeaderVisible(false)
       } else {
-        // Scrolling up
         setIsHeaderVisible(true)
       }
-
       setLastScrollY(currentScrollY)
     }
-
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [lastScrollY, showSelectionMenu])
@@ -42,17 +35,14 @@ export default function SubstackHomepage() {
     const handleTextSelection = () => {
       const selection = window.getSelection()
       if (selection && selection.toString().length >= 5) {
-        // Check if the selection is within the article element
         const range = selection.getRangeAt(0)
         const articleElement = document.querySelector("article")
-
         if (articleElement && articleElement.contains(range.commonAncestorContainer)) {
           const rect = range.getBoundingClientRect()
-
           setSelectedText(selection.toString())
           setMenuPosition({
-            x: rect.left + rect.width / 2, // Center horizontally relative to selection width
-            y: rect.top - 15, // Position 15px above the highest point of selection
+            x: rect.left + rect.width / 2,
+            y: rect.top - 15,
           })
           setShowSelectionMenu(true)
         } else {
@@ -64,23 +54,18 @@ export default function SubstackHomepage() {
         setSelectedText("")
       }
     }
-
     const handleClickOutside = () => {
       if (window.getSelection()?.toString().trim().length === 0) {
         setShowSelectionMenu(false)
         setSelectedText("")
       }
     }
-
-    // Add real-time updates during selection
     const handleSelectionChange = () => {
       handleTextSelection()
     }
-
     document.addEventListener("mouseup", handleTextSelection)
     document.addEventListener("mousedown", handleClickOutside)
     document.addEventListener("selectionchange", handleSelectionChange)
-
     return () => {
       document.removeEventListener("mouseup", handleTextSelection)
       document.removeEventListener("mousedown", handleClickOutside)
@@ -89,7 +74,7 @@ export default function SubstackHomepage() {
   }, [])
 
   const handleContextualize = () => {
-    router.push(`/contextualize-loading?q=${encodeURIComponent(selectedText)}`)
+    router.push(`/contextualize?q=${encodeURIComponent(selectedText)}`)
   }
 
   return (
@@ -102,20 +87,28 @@ export default function SubstackHomepage() {
       >
         <div className="max-w-6xl mx-auto">
           <div className="w-full flex items-center">
+            {/* Back Button - now at the far left */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-gray-600 hover:text-gray-900 mr-2"
+              onClick={() => router.push('/contextualize')}
+              aria-label="Back"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </Button>
             {/* Left - Profile Avatar */}
             <div className="flex items-center">
               <div className="w-7 h-7">
                 <img src="/images/flag-icon.svg" alt="Substack Icon" className="w-full h-full object-contain" />
               </div>
             </div>
-
             {/* Center - Publication Name (absolutely centered) */}
             <div className="absolute left-1/2 transform -translate-x-1/2">
               <h1 className="font-medium text-gray-900 text-2xl" style={{ fontFamily: "Georgia, serif" }}>
                 So That's That
               </h1>
             </div>
-
             {/* Right - Actions */}
             <div className="flex items-center gap-3 ml-auto">
               <Button variant="ghost" size="icon" className="text-gray-600 hover:text-gray-900">
@@ -138,7 +131,6 @@ export default function SubstackHomepage() {
           </div>
         </div>
       </header>
-
       {/* Text Selection Menu */}
       {showSelectionMenu && (
         <div
@@ -187,7 +179,6 @@ export default function SubstackHomepage() {
           </button>
         </div>
       )}
-
       {/* Main Content */}
       <main className="max-w-2xl mx-auto px-4 py-12 pt-24">
         {/* Article Header */}
@@ -196,21 +187,19 @@ export default function SubstackHomepage() {
             className="text-4xl md:text-5xl text-gray-900 mb-6 leading-tight"
             style={{ fontFamily: "Georgia, serif" }}
           >
-            Substack is Amazing.
+            Understanding Media: The Extensions of Man
           </h1>
-
           {/* Author Info */}
           <div className="flex items-center gap-3 mb-6">
             <Avatar className="w-10 h-10">
-              <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Sachin Monga" />
-              <AvatarFallback>SM</AvatarFallback>
+              <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Marsh McWuhan" />
+              <AvatarFallback>MM</AvatarFallback>
             </Avatar>
             <div>
-              <div className="text-sm font-medium text-gray-900">Honglu Wang </div>
-              <div className="text-sm text-gray-500">May 28, 2025</div>
+              <div className="text-sm font-medium text-gray-900">Marsh McWuhan</div>
+              <div className="text-sm text-gray-500">2 days ago</div>
             </div>
           </div>
-
           {/* Engagement Bar */}
           <div className="flex items-center justify-between border-t border-b border-gray-200 py-3">
             <div className="flex items-center gap-6">
@@ -236,72 +225,31 @@ export default function SubstackHomepage() {
             </div>
           </div>
         </div>
-
         {/* Article Content */}
         <article className="prose prose-lg max-w-none select-text" style={{ fontFamily: "Georgia, serif" }}>
           <p className="text-gray-800 leading-relaxed mb-6 text-lg">
-            We're only a few years into the era where the majority of humans have a supercomputer in their pocket, which
-            is connected to every other supercomputer in every other pocket. There are two important factors that
-            intersect to make this moment different.
+            In a culture like ours, long accustomed to splitting and dividing all things as a means of control, it is sometimes a bit of a shock to be reminded that, in operational and practical fact, the medium is the message. This is merely to say that the personal and social consequences of any medium-- that is, of any extension of ourselves -- result from the new scale that is introduced into our affairs by each extension of ourselves, or by any new technology.
           </p>
-
           <p className="text-gray-800 leading-relaxed mb-6 text-lg">
-            First - "looking at a screen" isn't really the activity we're taking part in anymore. A mobile screen, at
-            least in theory, is a window into a much wider range of potential experiences than a TV screen. With your
-            phone, you can talk to friends, find someone to date, read a book, play a game, make money, or watch a
-            video. Compare this with the TV in your living room: you can watch the news, or a movie, or a show.
+            Thus, with automation, for example, the new patterns of human association tend to eliminate jobs, it is true. That is the negative result. Positively, automation creates roles for people, which is to say depth of involvement in their work and human association that our preceding mechanical technology had destroyed. Many people would be disposed to say that it was not the machine, but what one did with the machine, that was its meaning or message. In terms of the ways in which the machine altered our relations to one another and to ourselves, it mattered not in the least whether it turned out cornflakes or Cadillacs. The restructuring of human work and association was shaped by the technique of fragmentation that is the essence of machine technology. The essence of automation technology is the opposite. It is integral and decentralist in depth, just as the machine was fragmentary, centralist, and superficial in its patterning of human relationships.
           </p>
-
           <p className="text-gray-800 leading-relaxed mb-6 text-lg">
-            Substack is the home for great culture. It is a new media app that connects you with the creators, ideas,
-            and communities you care about most. On Substack, you can discover world-class video, podcasts, and writing
-            from a diverse set of creators who cover politics, pop culture, food, philosophy, tech, travel, and much
-            more.
+            The instance of the electric light may prove illuminating in this connection. The electric light is pure information. It is a medium without a message, as it were, unless it is used to spell out some verbal ad or name. This fact, characteristic of all media, means that the "content" of any medium is always another medium. The content of writing is speech, just as the written word is the content of print, and print is the content of the telegraph. If it is asked, "What is the content of speech?", it is necessary to say, "It is an actual process of thought, which is in itself nonverbal." An abstract painting represents direct manifestation of creative thought processes as they might appear in computer designs. What we are considering here, however, are the psychic and social consequences of the designs or patterns as they amplify or accelerate existing processes. For the "message" of any medium or technology is the change of scale or pace or pattern that it introduces into human affairs.
           </p>
-
           <p className="text-gray-800 leading-relaxed mb-6 text-lg">
-            Substack makes it easy to explore the wide range of work across the platform. The Notes feed is a space
-            where you can see what people are sharing and thinking about in real time—designed for discovery,
-            conversation, and connection. There is also a dedicated space for video, where you can browse clips, dive
-            into full posts, and subscribe to publishers directly from content that resonates with you.
+            The railway did not introduce movement or transportation or wheel or road into human society, but it accelerated and enlarged the scale of previous human functions, creating totally new kinds of cities and new kinds of work and leisure. This happened whether the railway functioned in a tropical or a northern environment and is quite independent of the freight or content of the railway medium. The airplane, on the other hand, by accelerating the rate of transportation, tends to dissolve the railway form of city, politics, and association, quite independently of what the airplane is used for.
           </p>
-
           <p className="text-gray-800 leading-relaxed mb-6 text-lg">
-            For deeper engagement, Substack offers live video that lets you interact with your favorite writers and
-            creators in real time—whether it's for a collaborative conversation, breaking news reaction, or
-            behind-the-scenes update. Chat provides a private space for more meaningful conversations between creators
-            and their communities, fostering authentic connection.
+            Let us return to the electric light. When the light is being used for brain surgery or night baseball is a matter of indifference. It could be argued that these activities are in some way the "content" of the electric light, since they could not exist without the electric light. This fact merely underlines the point that "the medium is the message" because it is the medium that shapes and controls the scale and form of human association and action. The content or uses of such media are as diverse as they are ineffectual in shaping the form of human association. Indeed, it is only too typical that the "content" of any medium blinds us to the character of the medium.
           </p>
-
           <p className="text-gray-800 leading-relaxed mb-6 text-lg">
-            As writer Hunter Harris describes it: "The Hung Up chat feels like the roped-off VIP section of a nightclub,
-            or the group chat of all the kids who got cellphones early. It's a rapid-fire conversation of memes, hot
-            takes, unpopular opinions, ruthless inside jokes, and earned (and sometimes unearned) shade. It's my
-            favorite part of running my newsletter. There's no better low-effort, high-reward way to engage with all my
-            readers."
+            It is only today that industries have become aware of the various kinds of business in which they are engaged. When IBM discovered that it was not in the business of making office equipment or business machines, but that it was in the business of processing information, then it began to navigate with clear vision. The General Electric Company makes a considerable portion of its profits from electric light bulbs and lighting systems. It has not yet discovered that, quite as much as A.T.& T., it is in the business of moving information.
           </p>
-
           <p className="text-gray-800 leading-relaxed mb-6 text-lg">
-            Substack supports a model that makes quality creative work possible. When subscribers pay writers and
-            creators directly, it allows them to focus on the work they care about most. Just a few hundred paid
-            subscribers can support a livelihood, while a few thousand can make it lucrative.
-          </p>
-
-          <p className="text-gray-800 leading-relaxed mb-6 text-lg">
-            Substack empowers creators through control, aligned incentives, growth, and ownership. With a
-            subscription-based model, creators can focus on serving their audience rather than chasing clicks or
-            appeasing advertisers. You decide what to publish, when to publish, and how to engage. Substack takes a
-            hands-off approach to moderation and supports community-led standards, allowing you to shape the
-            conversation on your own terms.
-          </p>
-
-          <p className="text-gray-800 leading-relaxed mb-8 text-lg">
-            Finally, Substack gives creators full ownership. Publishers retain the rights to their content and control
-            their relationships with subscribers. If you ever want to leave the platform, you can easily export your
-            posts and subscriber email list and take them with you.
+            The electric light escapes attention as a communication medium just because it has no "content." And this makes it an invaluable instance of how people fail to study media at all. For it is not till the electric light is used to spell out some brand name that it is noticed as a medium. Then it is not the light but the "content" (or what is really another medium) that is noticed. The message of the electric light is like the message of electric power in industry, totally radical, pervasive, and decentralized. For electric light and power are separate from their uses, yet they eliminate time and space factors in human association exactly as do radio, telegraph, telephone, and TV, creating involvement in depth.
           </p>
         </article>
       </main>
     </div>
   )
-}
+} 

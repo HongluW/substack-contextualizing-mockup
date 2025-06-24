@@ -7,7 +7,7 @@ export function AuthorsInsight() {
     {
       name: "Marsh McWuhan",
       handle: "@marmcwuhan",
-      avatar: "/placeholder.svg?height=48&width=48",
+      avatar: "/avatars/avatar 1.png",
       articles: [
         { title: "Understanding Media: The Extensions of Man", date: "2 days ago" },
         { title: "Global Village", date: "1 week ago" },
@@ -16,22 +16,22 @@ export function AuthorsInsight() {
     {
       name: "Helen de Prasidunt",
       handle: "@helendc",
-      avatar: "/placeholder.svg?height=48&width=48",
+      avatar: "/avatars/avatar 2.png",
       articles: [{ title: "Can't take it with you", date: "3 days ago" }],
     },
     {
       name: "Justin E. H. Bieber",
       handle: "@JEHS",
-      avatar: "/placeholder.svg?height=48&width=48",
+      avatar: "/avatars/avatar 3.png",
       articles: [
         { title: "Hinternet", date: "4 days ago" },
-        { title: "Autofiction Is All We’ve Ever Known", date: "3 weeks ago" },
+        { title: "Autofiction Is All We've Ever Known", date: "3 weeks ago" },
       ],
     },
   ]
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 mt-16">
       <h2 className="text-xl font-bold mb-4 text-white">Author's Insights</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {authors.map((author, index) => (
@@ -41,9 +41,15 @@ export function AuthorsInsight() {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <Avatar className="w-12 h-12">
-                    {" "}
-                    {/* Changed to w-12 h-12 */}
-                    <AvatarImage src={author.avatar || "/placeholder.svg"} alt={author.name} />
+                    <AvatarImage
+                      src={author.avatar || "/placeholder.svg"}
+                      alt={author.name}
+                      className={
+                        author.name === "Marsh McWuhan" || author.name === "Helen de Prasidunt" || author.name === "Justin E. H. Bieber"
+                          ? "object-cover object-center w-full h-full"
+                          : undefined
+                      }
+                    />
                     <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div>
@@ -59,7 +65,13 @@ export function AuthorsInsight() {
               <div className="space-y-2">
                 {author.articles.map((article, artIndex) => (
                   <div key={artIndex} className="bg-[#1f1f1f] p-3 rounded-md hover:bg-[#252525] cursor-pointer">
-                    <b className="font-semibold text-gray-400 text-base">{article.title}</b>
+                    {article.title === "Understanding Media: The Extensions of Man" ? (
+                      <a href="/understanding-media" className="font-semibold text-gray-400 text-base">
+                        {article.title}
+                      </a>
+                    ) : (
+                      <b className="font-semibold text-gray-400 text-base">{article.title}</b>
+                    )}
                     <p className="text-gray-500 text-xs mt-1">{article.date}</p>
                   </div>
                 ))}

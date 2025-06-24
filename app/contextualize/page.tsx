@@ -119,6 +119,11 @@ export default function ContextualizePage() {
             {/* Authors Insight Section */}
             <AuthorsInsight />
 
+            {/* Contextual Results Section */}
+            <div className="mt-8 mb-4">
+              <h2 className="text-xl font-bold mb-4 text-white">Contextual Results</h2>
+            </div>
+
             {/* Filter Tabs */}
             <div className="border-b border-gray-700 pb-4 mb-6">
               <div className="flex space-x-6">
@@ -140,8 +145,8 @@ export default function ContextualizePage() {
                   </Avatar>
                   <div>
                     <h3 className="font-semibold text-white">aNYthing</h3>
-                    <b className="text-gray-400 text-sm font-medium">@anythingglob • aNYthing's Substack</b>
-                    <b className="text-gray-400 text-sm font-medium">The Only Brand That Matters.</b>
+                    <b className="text-gray-400 text-sm font-medium">@anythinggisimpossible • impossible Substack</b>
+                    <b className="text-gray-400 text-sm font-medium">When there is a will, there is a way.</b>
                   </div>
                 </div>
                 <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg">Follow</Button>
@@ -155,10 +160,10 @@ export default function ContextualizePage() {
                     <AvatarFallback className="bg-purple-600 text-white">LA</AvatarFallback>
                   </Avatar>
                   <div>
-                    <h3 className="font-semibold text-white">Learn Anything</h3>
-                    <b className="text-gray-400 text-sm font-medium">@learnanything • Learn Anything</b>
+                    <h3 className="font-semibold text-white">Learn Nothing</h3>
+                    <b className="text-gray-400 text-sm font-medium">@learnnothinghaha</b>
                     <b className="text-gray-400 text-sm font-medium">
-                      ✨ Chia sẻ công nghệ, dữ liệu & phát triển kiến thức | 🚀 Giúp ban...
+                      So you want to learn nothing?
                     </b>
                   </div>
                 </div>
@@ -180,13 +185,12 @@ export default function ContextualizePage() {
                     </div>
                     <div className="text-gray-300 space-y-2">
                       <p>
-                        Hey <span className="text-blue-400">Chris Best</span>
+                        Hey <span className="text-blue-400">Jason</span>
                       </p>
                       <p>
                         <span className="font-semibold">Memoirlosophy</span> A new category: memoir as philosophy.
                       </p>
                       <p>Not the love of wisdom in theory—but in practice.</p>
-                      <p>Lived experience isn't a detour from philosophy. It's the ground of it.</p>
                       <p>
                         That's the basis of{" "}
                         <span className="italic">There's Nothing Wrong With You (And There Never Was)</span>
